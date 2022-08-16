@@ -35,7 +35,9 @@ namespace NotePad
             int n = int.Parse(reader.ReadLine());
             for (int i = 0; i < n; i++)
             {
-                writer.WriteLine(arr[int.Parse(reader.ReadLine()), int.Parse(reader.ReadLine())]);
+                int t1 = int.Parse(reader.ReadLine());
+                int t2 = int.Parse(reader.ReadLine());
+                writer.WriteLine(arr[t1,t2]);
             }
 
             writer.Close();
