@@ -6,33 +6,28 @@ namespace NotePad.BaekJoon
     {
         public static void Main(string[] args)
         {
-            int n = int.Parse(Console.ReadLine());
+            int c = int.Parse(Console.ReadLine());
 
-            int[] arr = new int[n];
-            int[] time = new int[n];
             int result = 0;
 
             string[] temp = Console.ReadLine().Split();
-            
-            for (int i = 0; i < n; i++)
-            {
-                arr[i] = int.Parse(temp[i]);
-            }
+            int[] arr = Array.ConvertAll(temp, int.Parse);
             
             Array.Sort(arr);
+
+            int n = 0;
 
             for (int i = 0; i < arr.Length; i++)
             {
                 if (i == 0)
                 {
-                    time[i] = arr[i];
-                    result += time[i];
+                    result = n + arr[i];
+                    n = arr[i];
+                    continue;
                 }
-                else
-                {
-                    time[i] = time[i - 1] + arr[i];
-                    result += time[i];
-                }
+
+                n = arr[i] + n;
+                result += n;
             }
             
             Console.WriteLine(result);
