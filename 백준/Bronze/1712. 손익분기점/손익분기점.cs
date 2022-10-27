@@ -8,9 +8,9 @@ namespace NotePad.BaekJoon
         {
             string[] temp = Console.ReadLine().Split();
 
-            long n = int.Parse(temp[0]);
-            long variable = int.Parse(temp[1]);
-            long props = int.Parse(temp[2]);
+            int n = int.Parse(temp[0]);
+            int variable = int.Parse(temp[1]);
+            int props = int.Parse(temp[2]);
 
             if (variable >= props)
             {
@@ -18,21 +18,12 @@ namespace NotePad.BaekJoon
             }
             else
             {
-                long count = 0;
+                int count = 0;
 
                 count = props - variable;
                 count = n / count;
-                count++; 
-                Console.WriteLine(count);
+                Console.WriteLine(++count);
             }
-
-            
-            
-            // while (n + variable * count >= props * count)
-            // {
-            //     count++;
-            // }
-
         }
     }
 }
