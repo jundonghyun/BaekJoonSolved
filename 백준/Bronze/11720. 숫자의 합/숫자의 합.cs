@@ -1,22 +1,22 @@
 using System;
+using System.Linq;
 
-namespace Chapter1
+namespace NotePad.BaekJoon
 {
-    class MainClass
-    { 
+    public class Bj11720
+    {
         public static void Main(string[] args)
         {
-            var size = int.Parse(Console.ReadLine());
-            var input = Console.ReadLine();
-
-
-            var result = 0;
-            for (int i = 0; i < input.Length; i++)
-            {
-                result += int.Parse(input[i].ToString());
-            }
+            int.Parse(Console.ReadLine());
             
-            Console.Write(result);
+            int result = 0;
+
+            foreach (var ch in Console.ReadLine())
+            {
+                result += int.Parse(ch.ToString());
+            }
+
+            Console.WriteLine(result);
         }
     }
 }
