@@ -1,160 +1,87 @@
 using System;
-using System.Runtime.InteropServices;
-using System.Runtime.InteropServices.ComTypes;
-using System.Security.Claims;
-using System.Security.Cryptography.X509Certificates;
+using System.Linq;
 
-namespace NotePad
+namespace NotePad.BaekJoon
 {
-    class Program
+    public class BJ1018
     {
-        /*
-        체스판은 검은색과 흰색이 번갈아서 칠해져 있어야 한다. 구체적으로, 각 칸이 검은색과 흰색 중 하나로 색칠되어 있고, 변을 공유하는 두 개의 사각형은 다른 색으로 칠해져 있어야 한다. 
-        따라서 이 정의를 따르면 체스판을 색칠하는 경우는 두 가지뿐이다. 하나는 맨 왼쪽 위 칸이 흰색인 경우, 하나는 검은색인 경우이다.
-        */
-
-
         public static void Main(string[] args)
         {
-            //B = 0, W = 1;
-            string[] inputNum = Console.ReadLine().Split();
+            int[] arr = Console.ReadLine().Split().Select(int.Parse).ToArray();
 
-            int n = int.Parse(inputNum[0]);
-            int m = int.Parse(inputNum[1]);
+            string[,] chess = new string[arr[0], arr[1]];
 
-            int[,] chess = new int[n, m];
-            int[,] dir = { { 0, 1 }, { 1, 0 } };
-            bool[,] check = new bool[n, m];
-
-
-            for (int i = 0; i < n; i++)
+            for (int i = 0; i < arr[0]; i++)
             {
-                string temp = Console.ReadLine();
+                char[] temp = Console.ReadLine().ToCharArray();
+
                 for (int j = 0; j < temp.Length; j++)
                 {
-                    if (temp[j] == 'B')
-                    {
-                        chess[i, j] = 0; //b
-                    }
-                    else
-                    {
-                        chess[i, j] = 1; //w
-                    }
+                    chess[i, j] = temp[j].ToString();
                 }
             }
 
-            //0,0이랑 8,8을 확인해서 둘이 다르면 0,0을 8,8과 똑같은걸로 바꿔줌
-            //같으면 다음거를 바꿔줌.
-            checkChess(chess, n, m);
-        }
-
-        static void checkChess(int[,] chess, int n, int m)
-        {
-            int[,] check = new int[n, m];
-            int row = 8, col = 8;
-            int result = Int32.MaxValue;
-
-            while (row != n + 1)
+            string[,] originalW =
             {
-                while (col != m + 1) //열을 먼저 끝까지 검사
+                { "W", "B", "W", "B", "W", "B", "W", "B" },
+                { "B", "W", "B", "W", "B", "W", "B", "W" },
+                { "W", "B", "W", "B", "W", "B", "W", "B" },
+                { "B", "W", "B", "W", "B", "W", "B", "W" },
+                { "W", "B", "W", "B", "W", "B", "W", "B" },
+                { "B", "W", "B", "W", "B", "W", "B", "W" },
+                { "W", "B", "W", "B", "W", "B", "W", "B" },
+                { "B", "W", "B", "W", "B", "W", "B", "W" },
+            };
+
+            string[,] originalB =
+            {
+                { "B", "W", "B", "W", "B", "W", "B", "W" },
+                { "W", "B", "W", "B", "W", "B", "W", "B" },
+                { "B", "W", "B", "W", "B", "W", "B", "W" },
+                { "W", "B", "W", "B", "W", "B", "W", "B" },
+                { "B", "W", "B", "W", "B", "W", "B", "W" },
+                { "W", "B", "W", "B", "W", "B", "W", "B" },
+                { "B", "W", "B", "W", "B", "W", "B", "W" },
+                { "W", "B", "W", "B", "W", "B", "W", "B" },
+            };
+
+            int result = int.MaxValue;
+
+            for (int i = 0; i < arr[0]; i++)
+            {
+                for (int j = 0; j < arr[1]; j++)
                 {
-                    int rowIdx = row - 8;
-                    int colIdx = col - 8;
-                    int resultTemp = 0; //변수 초기화
-
-
-                    if (rowIdx + 7 < row && colIdx + 7 < col) // 8*8을 넘어가는지 확인
+                    if (i + 7 < arr[0] && j + 7 < arr[1])
                     {
+                        int WStart = 0;
+                        int BStart = 0;
+                        int row = 0;
 
-                        for (int first = 0; first < 2; first++) //번갈아 칠하는 곳
+                        while (row < 8)
                         {
-                            rowIdx = row - 8;
-                            colIdx = col - 8;
-                            resultTemp = 0;
-                            
-                            for (int i = 0; i < n; i++)
+                            int col = 0;
+                            while (col < 8)
                             {
-                                for (int j = 0; j < m; j++)
+                                if (originalW[row, col] != chess[row + i, col + j]) //w시작먼저 비교
                                 {
-                                    check[i, j] = chess[i, j];
+                                    WStart++;
                                 }
-                            } //배열 초기화
-                            
-                            if (first != 0) //왼쪽 가장 위가 검은색일때
-                            {
-                                if (chess[rowIdx, colIdx] == 0)
+
+                                if (originalB[row, col] != chess[row + i, col + j])
                                 {
-                                    check[rowIdx, colIdx] = 1;
-                                    resultTemp++;
+                                    BStart++;
                                 }
-                                else
-                                {
-                                    check[rowIdx, colIdx] = 0;
-                                    resultTemp++;
-                                }
+
+                                col++;
                             }
 
-                            for (rowIdx = row - 8; rowIdx < row; rowIdx++)
-                            {
-                                for (colIdx = col - 8; colIdx < col; colIdx++)
-                                {
-                                    //다른 색이면 다음단계 진행
-                                    int dirIdx = 0;
-                                    int current = check[rowIdx, colIdx];
-                                    while (dirIdx != 2)
-                                    {
-                                        if (dirIdx == 0)
-                                        {
-                                            if (colIdx + 1 < col)
-                                            {
-                                                if (current == check[rowIdx + 0, colIdx + 1]) //오른쪽 색이 같다면
-                                                {
-                                                    resultTemp++;
-                                                    if (current == 1)
-                                                    {
-                                                        check[rowIdx + 0, colIdx + 1] = 0;
-                                                    }
-                                                    else
-                                                    {
-                                                        check[rowIdx + 0, colIdx + 1] = 1;
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        else
-                                        {
-                                            if (rowIdx + 1 < row)
-                                            {
-                                                if (current == check[rowIdx + 1, colIdx + 0]) //아래 색이 같다면
-                                                {
-                                                    resultTemp++;
-                                                    if (current == 1)
-                                                    {
-                                                        check[rowIdx + 1, colIdx + 0] = 0;
-                                                    }
-                                                    else
-                                                    {
-                                                        check[rowIdx + 1, colIdx + 0] = 1;
-                                                    }
-                                                }
-                                            }
-                                        }
-
-                                        dirIdx++;
-                                    }
-                                }
-                            }
-                            if (result > resultTemp)
-                            {
-                                result = resultTemp;
-                            }
+                            row++;
                         }
-                    }
-                    col++;
-                }
 
-                col = 8;
-                row++;
+                        int temp = Math.Min(WStart, BStart);
+                        result = Math.Min(result, temp);
+                    }
+                }
             }
 
             Console.WriteLine(result);
