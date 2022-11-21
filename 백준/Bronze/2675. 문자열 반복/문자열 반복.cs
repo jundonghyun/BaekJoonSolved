@@ -1,8 +1,10 @@
 using System;
+using System.Linq;
+using System.Reflection.Emit;
 
 namespace NotePad.BaekJoon
 {
-    public class BJ2675
+    public class notepad
     {
         public static void Main(string[] args)
         {
@@ -11,20 +13,18 @@ namespace NotePad.BaekJoon
             for (int i = 0; i < n; i++)
             {
                 string result = "";
-                string[] temp = Console.ReadLine().Split();
                 
-                int r = int.Parse(temp[0]);
+                string[] temp = Console.ReadLine().Split();
 
-                string s = temp[1];
+                char[] c = temp[1].ToCharArray();
 
-                for (int j = 0; j < s.Length; j++)
+                for (int j = 0; j < c.Length; j++)
                 {
-                    for (int k = 0; k < r; k++)
+                    for (int k = 0; k < int.Parse(temp[0]); k++)
                     {
-                        result += s[j];
+                        result += c[j];
                     }
                 }
-                
                 Console.WriteLine(result);
             }
         }
