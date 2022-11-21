@@ -1,41 +1,42 @@
 using System;
+using System.Linq;
+using System.Reflection.Emit;
 
 namespace NotePad.BaekJoon
 {
-    public class BJ11047
+    public class notepad
     {
         public static void Main(string[] args)
         {
-            string[] temp = Console.ReadLine().Split();
+            int[] temp = Console.ReadLine().Split().Select(int.Parse).ToArray();
 
-            int n = int.Parse(temp[0]);
-            int value = int.Parse(temp[1]);
+            int n = temp[0];
+            int target = temp[1];
 
-            int[] arr = new int[n];
+            int result = 0;
+
+            int[] coin = new int[n];
             
             for (int i = 0; i < n; i++)
             {
-                arr[i] = int.Parse(Console.ReadLine());
+                coin[i] = int.Parse(Console.ReadLine());
             }
 
-            int tmp = 0; 
-            int count = 0;
-            
-            while (tmp != value)
+            for (int i = coin.Length - 1; i >= 0; i--)
             {
-                for (int i = arr.Length-1; i >= 0; i--)
+                if (target < coin[i])
                 {
-                    if (arr[i] <= value && tmp + arr[i] <= value)
-                    {
-                        tmp += arr[i];
-                        count++;
-                        break;
-
-                    }
+                    continue;
+                }
+                else
+                {
+                    result += target / coin[i];
+                    target = target % coin[i];
                 }
             }
             
-            Console.WriteLine(count);
+            Console.WriteLine(result);
         }
+        
     }
 }
