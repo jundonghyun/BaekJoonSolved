@@ -1,28 +1,20 @@
 using System;
+using System.Linq;
+using System.Reflection.Emit;
 
 namespace NotePad.BaekJoon
 {
-    public class BJ5622
+    public class notepad
     {
         public static void Main(string[] args)
         {
-            string s = Console.ReadLine();
-            //1 = 2
-            //2(ABC) = 3
-            //3(DEF) = 4
-            //4(GHI) = 5
-            //5(JKL) = 6
-            //6(MNO) = 7
-            //7(PQRS) = 8
-            //8(TUV) = 9
-            //9(WXYZ) = 10
-            //0 = 11;
+            string input = Console.ReadLine();
 
             int result = 0;
 
-            for (int i = 0; i < s.Length; i++)
+            for (int i = 0; i < input.Length; i++)
             {
-                switch (s[i])
+                switch (input[i])
                 {
                     case 'A':
                     case 'B':
@@ -75,6 +67,7 @@ namespace NotePad.BaekJoon
                         break;
                 }
             }
+            
             Console.WriteLine(result);
         }
     }
