@@ -1,8 +1,13 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection.Emit;
+using System.Runtime.InteropServices;
+using System.Text;
 
 namespace NotePad.BaekJoon
 {
-    public class BJ1065
+    public class notepad
     {
         public static void Main(string[] args)
         {
@@ -15,22 +20,18 @@ namespace NotePad.BaekJoon
             else
             {
                 int count = 99;
-                int temp = 100;
                 
-                while (temp <= n)
+                for (int i = 100; i <= n; i++)
                 {
-                    int one = temp % 10;
-                    int ten = (temp / 10) % 10;
-                    int hundred = temp / 100;
+                    int one = i % 10;
+                    int ten = (i / 10) % 10;
+                    int hundread = i / 100;
 
-                    if (one - ten == ten - hundred)
+                    if (one - ten == ten - hundread)
                     {
                         count++;
                     }
-
-                    temp++;
                 }
-                
                 Console.WriteLine(count);
             }
         }
